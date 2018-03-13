@@ -1,0 +1,110 @@
+body {
+	margin-right: 40px;
+	margin-left: 40px;
+	background-image: url("/img/wallpaper.png");
+	background-size: 900px 900px;
+}
+
+h1 {
+	font-size: 36px;
+}
+
+i.icon {
+	font-size: 2em;
+}
+
+i.icon.angle.up:before {
+	color: 26C281;
+}
+
+i.icon.angle.down:before {
+	color: CF000F;
+}
+
+.ui.menu>.container {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+
+.ui.secondary.menu {
+	margin-bottom: 0px;
+}
+
+.ui.menu {
+	font-size: 1.1rem;
+}
+
+
+.ui.basic.positive.button {
+	line-height: 0.5;
+}
+.ui.basic.negative.button {
+	line-height: 0.5;
+}
+
+.title-div {
+	margin-top: 20px;
+	line-height: 1.2;
+}
+
+.ui.divided.list>.item {
+	border-top: 2px solid rgba(34,36,38,.15);
+}
+
+.grey-text {
+	color: 333;
+}
+
+.search.block {
+	position: absolute;
+	left: 23%;
+	top: 40%;
+}
+
+.floatleft {
+	float: left;
+}
+
+.bubbly.title {
+	position: absolute;
+	font-size: 64px;
+	left: 43%;
+	top: 25%;
+	color: #6435C9;
+	font-family: 'Grand Hotel', cursive;
+}
+
+.bubbly.home {
+	font-size: 40px;
+	color: #6435C9;
+	font-family: 'Grand Hotel', cursive;
+}
+
+.description {
+	font-size: 18px;
+}
+
+.new.page {
+	position: relative;
+    left: 38%;
+    top: 5%;
+}
+
+.new.title {
+	font-size: 32px;
+	position: absolute;
+	left: 35%;
+	top: 12%;
+}
+
+.ui.form .field>label {
+	font-size: 16px;
+}
+
+.menu.field {
+	position: relative;
+    left: 4%;
+}
+

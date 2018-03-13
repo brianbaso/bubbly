@@ -1,0 +1,37 @@
+<% include ./partials/header %>
+
+
+<h2 class="new title">🌆 create a new bar or club 🌃</h2>
+
+<div class="new page">
+	<form class="ui form" action="/bars" method="POST">
+		<div class="field">
+			<label class="new label">Name</label>
+				<div class="four wide field">
+					<input type="text" name="name">
+				</div>
+		</div>
+		<div class="field">
+			<label class="new label">Price ($)</label>
+				<div class="four wide field">
+					<input type="text" name="price">
+				</div>
+		</div>
+		<div class="field">
+			<label class="new label">Bar or Club?</label>
+				<div class="four wide field">
+					<input type="text" name="type">
+				</div>
+		</div>
+		<div class="field">
+			<label class="new label">Area in the City</label>
+				<div class="four wide field">
+					<input type="text" name="location"">
+				</div>
+		</div>
+		<button class="ui violet basic button">Submit</button>
+		<a class="ui violet basic button" href="/bars">Go back</a>
+	</form>
+</div>
+
+<% include ./partials/footer %>
