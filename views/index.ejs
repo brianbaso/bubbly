@@ -11,6 +11,17 @@
 </div>
 
 <div class="ui massive divided list">
+
+	<% if (noMatch !== null) { %>
+	<h3><%= noMatch %></h3>
+	<form action="/bars" method="GET" class="ui form floatleft">
+		<div class="fields">
+			<input type="text" name="search" placeholder="City search...">&nbsp;&nbsp;
+			<input type="submit" value="Search" class="ui purple basic button">
+		</div>
+	</form>
+	<% } %>
+
 	<% bars.forEach(function(bar) { %>
 	  <div class="item">
 	    <i class="angle up icon"></i>

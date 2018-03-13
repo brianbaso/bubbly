@@ -9,6 +9,7 @@ mongoose.connect('mongodb://localhost/bubbly');
 
 // 2. set up the schema
 var barSchema = new mongoose.Schema({
+	city: String,
 	name: String,
 	price: String,
 	type: String,
@@ -20,7 +21,7 @@ var barSchema = new mongoose.Schema({
 var Bar = mongoose.model("Bar", barSchema);
 
 // Bar.create(
-// 	{name: "Blackbird", price: "$$", type: "🍺bar", location: "wynwood", bubblyScore: 4.6},
+// 	{city: "miami", name: "Eleven", price: "$$$$", type: "🍺club", location: "south beach", bubblyScore: 4.2},
 // 	function(err, bar) {
 // 		if (err) {
 // 			console.log(err);
@@ -45,17 +46,23 @@ app.get('/', function(req, res) {
 
 // INDEX route: show all campgrounds
 app.get('/bars', function(req, res) {
-	if (req.query.search) {
+	var noMatch = null;
 
-		Bar.find({}, function(err, allBars) {
+	if (req.query.search) {
+		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+
+		Bar.find({city: regex}, function(err, allBars) {
 			if (err) {
 				console.log(err);
 			} else {
+				if (allBars.length < 1) {
+					noMatch = "Nothing was found, please try again!";
+				}
 				// data we pass through to the page
-				res.render('index', {bars: allBars});
+				res.render('index', {bars: allBars, noMatch: noMatch});
 			}
 		});
-		
+
 	} else {
 	// get all the campgrounds from the db
 		Bar.find({}, function(err, allBars) {
@@ -63,7 +70,7 @@ app.get('/bars', function(req, res) {
 				console.log(err);
 			} else {
 				// data we pass through to the page
-				res.render('index', {bars: allBars});
+				res.render('index', {bars: allBars, noMatch: noMatch});
 			}
 		});
 	}
@@ -92,12 +99,13 @@ app.get('/bars/:id', function(req, res) {
 // POST route: so user can add bars & clubs
 app.post('/bars', function (req, res) {
 	// get data from form and add to bars array
+	var city = req.body.city;
 	var name = req.body.name;
 	var price = req.body.price;
 	var type = req.body.type;
 	var location = req.body.location;
 	var bubblyScore = req.body.bubblyScore;
-	var newBar = {name: name, price: price, type: type, location: location, bubblyScore: bubblyScore}
+	var newBar = {city: city, name: name, price: price, type: type, location: location, bubblyScore: bubblyScore}
 
 	// Create a new bar, save it to the database
 	Bar.create(newBar, function(err, newlyCreated) {
@@ -109,6 +117,10 @@ app.post('/bars', function (req, res) {
 		}
 	});
 });
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 app.listen(3000, function() {
 	console.log('Let the bubbles ensue...');
