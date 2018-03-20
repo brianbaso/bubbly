@@ -115,7 +115,7 @@ app.post('/bars', function (req, res) {
 			console.log(err);
 		} else {
 			// redirect to bars page
-			res.redirect('/bars');
+			res.redirect('/bars?search=' + city);
 		}
 	});
 });
