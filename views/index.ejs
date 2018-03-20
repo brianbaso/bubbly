@@ -7,7 +7,11 @@
 	</div>
 </div>
 <div>
-	<a class="ui purple basic button" href="/bars/new">add to list</a>
+	<a class="ui violet basic button" href="/bars/new">add to list</a>
+
+	<% if (req !== null) { %>
+		<a class="ui violet big label"><%= req.query.search %></a>
+	<% } %>
 </div>
 
 <div class="ui massive divided list">
@@ -17,7 +21,7 @@
 	<form action="/bars" method="GET" class="ui form floatleft">
 		<div class="fields">
 			<input type="text" name="search" placeholder="City search...">&nbsp;&nbsp;
-			<input type="submit" value="Search" class="ui purple basic button">
+			<input type="submit" value="Search" class="ui violet basic button">
 		</div>
 	</form>
 	<% } %>

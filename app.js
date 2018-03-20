@@ -1,7 +1,8 @@
 var express		= require('express'),
 	app			= express(),
 	bodyParser 	= require('body-parser'),
-	mongoose	= require('mongoose')
+	mongoose	= require('mongoose'),
+	path		= require('path')
 
 
 // 1. connect to local database
@@ -59,7 +60,7 @@ app.get('/bars', function(req, res) {
 					noMatch = "Nothing was found, please try again!";
 				}
 				// data we pass through to the page
-				res.render('index', {bars: allBars, noMatch: noMatch});
+				res.render('index', {bars: allBars, req: req, noMatch: noMatch});
 			}
 		});
 
@@ -69,8 +70,9 @@ app.get('/bars', function(req, res) {
 			if (err) {
 				console.log(err);
 			} else {
+				req = null;
 				// data we pass through to the page
-				res.render('index', {bars: allBars, noMatch: noMatch});
+				res.render('index', {bars: allBars, req: req, noMatch: noMatch});
 			}
 		});
 	}
@@ -117,6 +119,8 @@ app.post('/bars', function (req, res) {
 		}
 	});
 });
+
+
 
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
