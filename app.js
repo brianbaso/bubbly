@@ -24,6 +24,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use(function (req, res, next) {
+	res.locals.currentUser = req.user;
+	next();
+});
+
 // Bar.create(
 // 	{city: "miami", name: "Eleven", price: "$$$$", type: "🍺club", location: "south beach", bubblyScore: 4.2},
 // 	function(err, bar) {
@@ -83,11 +88,6 @@ app.get('/bars', function(req, res) {
 	//res.render('bars', {bars: bars});
 });
 
-// form will send data to the POST route below
-app.get('/bars/new', function(req, res) {
-	res.render('new');
-});
-
 // SHOW route: show individual bar
 app.get('/bars/:id', function(req, res) {
 	// find the bar with provided id
@@ -99,6 +99,11 @@ app.get('/bars/:id', function(req, res) {
 		}
 	});
 	// render show template with that bar
+});
+
+// form will send data to the POST route below
+app.get('/bars/new', function(req, res) {
+	res.render('new');
 });
 
 // POST route: so user can add bars & clubs
@@ -163,6 +168,19 @@ app.post('/login', passport.authenticate('local',
 	}), function(req, res) {
 
 });
+
+// Logout route
+app.get('/logout', function(req, res) {
+	req.logout();
+	res.redirect('bars');
+});
+
+function isLoggedIn(req, res, next) {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	res.redirect('/login');
+}
 
 app.listen(3000, function() {
 	console.log('Let the bubbles ensue...');

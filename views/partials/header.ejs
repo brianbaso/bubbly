@@ -16,8 +16,15 @@
 				<a href="/" class="item">💬 Messages</a>
 				<a href="/" class="item">🌎 Friends</a>
 				<div class="right menu">
-      				<a href="/login"><button class="ui violet button">🚀 log in</button></a>
-      				<a href="/register"><button class="ui violet basic button">👽 sign up</button></a>
+					<% if (!currentUser) {%>
+						<a href="/register"><button class="ui violet button">✨sign up</button></a>
+	      				<a href="/login"><button class="ui violet basic button">🚀login</button></a>
+      				<% } else { %>
+      					<div class="ui violet image label">
+						  👋<%= currentUser.username %>
+						</div>
+	      				<a href="/logout"><button class="ui violet basic button">✌🏽logout</button></a>
+      				<% } %>
   				</div>
 			</div>
 		</div>

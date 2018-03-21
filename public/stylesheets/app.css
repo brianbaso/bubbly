@@ -108,3 +108,7 @@ i.icon.angle.down:before {
     left: 4%;
 }
 
+.ui.image.label {
+	padding: 1em;
+}
+
