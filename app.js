@@ -1,25 +1,28 @@
-var express		= require('express'),
-	app			= express(),
-	bodyParser 	= require('body-parser'),
-	mongoose	= require('mongoose'),
-	path		= require('path')
+var express			= require('express'),
+	app				= express(),
+	bodyParser 		= require('body-parser'),
+	mongoose		= require('mongoose'),
+	passport		= require('passport'),
+	LocalStrategy	= require('passport-local'),
+	Bar  			= require('./models/bar'),
+	User 			= require('./models/user')
 
 
 // 1. connect to local database
 mongoose.connect('mongodb://localhost/bubbly');
 
-// 2. set up the schema
-var barSchema = new mongoose.Schema({
-	city: String,
-	name: String,
-	price: String,
-	type: String,
-	location: String,
-	bubblyScore: Number
-});
+// Passport config
+app.use(require('express-session')({
+	secret: 'super secret',
+	resave: false,
+	saveUninitialized: false
+}));
 
-// 3. complile into a schema
-var Bar = mongoose.model("Bar", barSchema);
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // Bar.create(
 // 	{city: "miami", name: "Eleven", price: "$$$$", type: "🍺club", location: "south beach", bubblyScore: 4.2},
@@ -120,11 +123,46 @@ app.post('/bars', function (req, res) {
 	});
 });
 
-
-
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
+
+// ===============
+// Auth Routes
+// ===============
+
+// show register form
+app.get('/register', function(req, res) {
+	res.render('register');
+});
+
+// Handle signup logic
+app.post('/register', function(req, res) {
+	var newUser = new User({username: req.body.username});
+	User.register(newUser, req.body.password, function(err, user) {
+		if (err) {
+			console.log(err);
+			return res.render('register');
+		}
+		passport.authenticate('local')(req, res, function() {
+			res.redirect('/bars');
+		});
+	});
+});
+
+// Login form
+app.get('/login', function(req, res) {
+	res.render('login');
+});
+
+// Handle login logic
+app.post('/login', passport.authenticate('local', 
+	{
+		successRedirect: '/bars',
+		failureRedirect: '/login'
+	}), function(req, res) {
+
+});
 
 app.listen(3000, function() {
 	console.log('Let the bubbles ensue...');
