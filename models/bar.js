@@ -7,7 +7,14 @@ var barSchema = new mongoose.Schema({
 	price: String,
 	type: String,
 	location: String,
-	bubblyScore: Number
+	bubblyScore: Number,
+	author: {
+		id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User"
+		},
+		username: String
+	}
 });
 
 // 3. complile into a schema

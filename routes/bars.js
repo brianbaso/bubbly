@@ -45,7 +45,11 @@ router.post('/bars', isLoggedIn, function (req, res) {
 	var type = req.body.type;
 	var location = req.body.location;
 	var bubblyScore = req.body.bubblyScore;
-	var newBar = {city: city, name: name, price: price, type: type, location: location, bubblyScore: bubblyScore}
+	var author = {
+		id: req.user._id,
+		username: req.user.username
+	}
+	var newBar = {city: city, name: name, price: price, type: type, location: location, bubblyScore: bubblyScore, author: author}
 
 	// Create a new bar, save it to the database
 	Bar.create(newBar, function(err, newlyCreated) {
