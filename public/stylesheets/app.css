@@ -112,3 +112,23 @@ i.icon.angle.down:before {
 	padding: 1em;
 }
 
+.ui.yellow.basic.button {
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 5px;
+	padding-right: 5px;
+	font-size: small;
+}
+
+.ui.red.basic.button {
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 5px;
+	padding-right: 5px;
+	font-size: small;
+}
+
+#delete-form {
+	display: inline;
+}
+

@@ -4,6 +4,7 @@ var express			= require('express'),
 	mongoose		= require('mongoose'),
 	passport		= require('passport'),
 	LocalStrategy	= require('passport-local'),
+	methodOverride	= require('method-override'),
 	Bar  			= require('./models/bar'),
 	User 			= require('./models/user')
 
@@ -14,6 +15,7 @@ mongoose.connect('mongodb://localhost/bubbly');
 // Serve static images, CSS, JS
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');
 
 app.use(require('express-session')({

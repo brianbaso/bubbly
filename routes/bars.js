@@ -81,6 +81,42 @@ router.get('/bars/:id', function(req, res) {
 	// render show template with that bar
 });
 
+// EDIT: edit bars 
+router.get('/bars/:id/edit', isLoggedIn, function(req, res) {
+	Bar.findById(req.params.id, function(err, foundBar) {
+		if (err) {
+			res.redirect('/bars');
+		} else {
+			res.render('edit', {bar: foundBar});
+		}
+	});
+});
+
+// UPDATE (PUT): update bars 
+router.put('/bars/:id', isLoggedIn, function(req, res) {
+	Bar.findByIdAndUpdate(req.params.id, req.body.bar, function(err, updatedBar) {
+		if (err) {
+			console.log(err);
+			res.redirect('/bars');
+		} else {
+			// how to pass in bar.city?
+			res.redirect('/bars?search=' + req.body.bar.city);
+		}
+	});
+});
+
+// DELETE: remove bars
+router.delete('/bars/:id', isLoggedIn, function(req, res) {
+	Bar.findByIdAndRemove(req.params.id, function(err) {
+		if (err) {
+			res.redirect('/bars');
+		} else {
+			res.redirect('/bars');
+			
+		}
+	});
+});
+
 function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated()) {
 		return next();
