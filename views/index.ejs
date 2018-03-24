@@ -32,10 +32,12 @@
 	    <div class="content">
 	      <div>
 		      	<a class="info-modal-link" href="/bars/<%= bar._id %>"><%= bar.name %></a>
-		      	<a class="ui yellow basic button" href="/bars/<%= bar._id %>/edit">edit</a>
-		      	<form id="delete-form" action="/bars/<%= bar._id %>?_method=DELETE" method="POST">
-		      		<button class="ui red basic button">delete</button>
-		      	</form>
+		      	<% if (currentUser && bar.author.id.equals(currentUser._id)) { %>
+			      	<a class="ui yellow basic button" href="/bars/<%= bar._id %>/edit">edit</a>
+			      	<form id="delete-form" action="/bars/<%= bar._id %>?_method=DELETE" method="POST">
+			      		<button class="ui red basic button">delete</button>
+			      	</form>
+			    <% } %>
 		      </div>
 	      <div class="description"><b><%= bar.price %></b>&nbsp;<%= bar.type %>📍<%= bar.location %></div>
 	    </div>

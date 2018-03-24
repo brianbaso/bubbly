@@ -82,18 +82,14 @@ router.get('/bars/:id', function(req, res) {
 });
 
 // EDIT: edit bars 
-router.get('/bars/:id/edit', isLoggedIn, function(req, res) {
+router.get('/bars/:id/edit', checkBarOwnership, function(req, res) {
 	Bar.findById(req.params.id, function(err, foundBar) {
-		if (err) {
-			res.redirect('/bars');
-		} else {
-			res.render('edit', {bar: foundBar});
-		}
+		res.render('edit', {bar: foundBar});
 	});
 });
 
 // UPDATE (PUT): update bars 
-router.put('/bars/:id', isLoggedIn, function(req, res) {
+router.put('/bars/:id', checkBarOwnership, function(req, res) {
 	Bar.findByIdAndUpdate(req.params.id, req.body.bar, function(err, updatedBar) {
 		if (err) {
 			console.log(err);
@@ -106,7 +102,7 @@ router.put('/bars/:id', isLoggedIn, function(req, res) {
 });
 
 // DELETE: remove bars
-router.delete('/bars/:id', isLoggedIn, function(req, res) {
+router.delete('/bars/:id', checkBarOwnership, function(req, res) {
 	Bar.findByIdAndRemove(req.params.id, function(err) {
 		if (err) {
 			res.redirect('/bars');
@@ -122,6 +118,24 @@ function isLoggedIn(req, res, next) {
 		return next();
 	}
 	res.redirect('/login');
+}
+
+function checkBarOwnership(req, res, next) {
+	if (req.isAuthenticated()) {
+		Bar.findById(req.params.id, function(err, foundBar) {
+			if (err) {
+				res.redirect('back');
+			} else {
+				if (foundBar.author.id.equals(req.user._id)) {
+					next();
+				} else {
+					res.redirect('back');
+				}
+			}
+		});
+	} else {
+		res.redirect('back');
+	}
 }
 
 function escapeRegex(text) {
