@@ -1,7 +1,7 @@
 var express		= require('express');
 	router		= express.Router();
 	Bar 		= require('../models/bar');
-
+	middleware 	= require('../middleware');
 
 // INDEX route: show all campgrounds
 router.get('/bars', function(req, res) {
@@ -37,7 +37,7 @@ router.get('/bars', function(req, res) {
 });
 
 // CREATE route: user can add bars & clubs
-router.post('/bars', isLoggedIn, function (req, res) {
+router.post('/bars', middleware.isLoggedIn, function (req, res) {
 	// get data from form and add to bars array
 	var city = req.body.city;
 	var name = req.body.name;
@@ -63,7 +63,7 @@ router.post('/bars', isLoggedIn, function (req, res) {
 });
 
 // NEW: form will send data to the POST route below
-router.get('/bars/new', isLoggedIn, function(req, res) {
+router.get('/bars/new', middleware.isLoggedIn, function(req, res) {
 	res.render('new');
 });
 
@@ -82,14 +82,14 @@ router.get('/bars/:id', function(req, res) {
 });
 
 // EDIT: edit bars 
-router.get('/bars/:id/edit', checkBarOwnership, function(req, res) {
+router.get('/bars/:id/edit', middleware.checkBarOwnership, function(req, res) {
 	Bar.findById(req.params.id, function(err, foundBar) {
 		res.render('edit', {bar: foundBar});
 	});
 });
 
 // UPDATE (PUT): update bars 
-router.put('/bars/:id', checkBarOwnership, function(req, res) {
+router.put('/bars/:id', middleware.checkBarOwnership, function(req, res) {
 	Bar.findByIdAndUpdate(req.params.id, req.body.bar, function(err, updatedBar) {
 		if (err) {
 			console.log(err);
@@ -102,7 +102,7 @@ router.put('/bars/:id', checkBarOwnership, function(req, res) {
 });
 
 // DELETE: remove bars
-router.delete('/bars/:id', checkBarOwnership, function(req, res) {
+router.delete('/bars/:id', middleware.checkBarOwnership, function(req, res) {
 	Bar.findByIdAndRemove(req.params.id, function(err) {
 		if (err) {
 			res.redirect('/bars');
@@ -113,30 +113,6 @@ router.delete('/bars/:id', checkBarOwnership, function(req, res) {
 	});
 });
 
-function isLoggedIn(req, res, next) {
-	if (req.isAuthenticated()) {
-		return next();
-	}
-	res.redirect('/login');
-}
-
-function checkBarOwnership(req, res, next) {
-	if (req.isAuthenticated()) {
-		Bar.findById(req.params.id, function(err, foundBar) {
-			if (err) {
-				res.redirect('back');
-			} else {
-				if (foundBar.author.id.equals(req.user._id)) {
-					next();
-				} else {
-					res.redirect('back');
-				}
-			}
-		});
-	} else {
-		res.redirect('back');
-	}
-}
 
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
