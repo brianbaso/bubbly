@@ -1,0 +1,34 @@
+var Bar = require('../models/bar');
+
+var middlewareObj = {};
+
+middlewareObj.checkBarOwnership = function(req, res, next) {
+	if (req.isAuthenticated()) {
+		Bar.findById(req.params.id, function(err, foundBar) {
+			if (err) {
+				req.flash('error', 'Location not found.');
+				res.redirect('back');
+			} else {
+				if (foundBar.author.id.equals(req.user._id)) {
+					next();
+				} else {
+					req.flash('error', 'You do not have permission to do that.');
+					res.redirect('back');
+				}
+			}
+		});
+	} else {
+		req.flash('error', 'You must be logged in to do that.');
+		res.redirect('back');
+	}
+}
+
+middlewareObj.isLoggedIn = function(req, res, next) {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	req.flash('error', 'You must be logged in to do that.');
+	res.redirect('/login');
+}
+
+module.exports = middlewareObj;
