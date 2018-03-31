@@ -71,10 +71,24 @@ router.get('/bars/new', middleware.isLoggedIn, function(req, res) {
 // SHOW route: show individual bar
 router.get('/bars/:id', function(req, res) {
 	// find the bar with provided id
-	Bar.findById(req.params.id, function(err, foundBar) {
+	Bar.findById(req.params.id).populate('ratings').exec(function(err, foundBar) {
 		if (err) {
 			console.log(err);
 		} else {
+			if (foundBar.ratings.length > 0) {
+				var ratings = [];
+				var length = foundBar.ratings.length;
+				foundBar.ratings.forEach(function(rating) {
+					ratings.push(rating.rating)
+				});
+				var rating = ratings.reduce(function(total, element) {
+					return total + element;
+				});
+				foundBar.rating = rating / length;
+				foundBar.save();
+			}
+			console.log('Ratings:', foundBar.ratings);
+			console.log('Rating:', foundBar.rating);
 			res.render('show', {bar: foundBar});
 		}
 	});

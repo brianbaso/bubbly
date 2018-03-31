@@ -14,7 +14,14 @@ var barSchema = new mongoose.Schema({
 			ref: "User"
 		},
 		username: String
-	}
+	},
+	ratings: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Rating"
+		}
+	],
+	rating: { type: Number, default: 0 }
 });
 
 // 3. complile into a schema
