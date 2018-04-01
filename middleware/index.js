@@ -26,7 +26,7 @@ middlewareObj.checkBarOwnership = function(req, res, next) {
 }
 
 middlewareObj.checkRatingExists = function(req, res, next) {
-	Bar.findById(req.params.id).populate('ratings').exec(function(err, barr) {
+	Bar.findById(req.params.id).populate('ratings').exec(function(err, bar) {
 		if (err) {
 			console.log(err);
 		}
