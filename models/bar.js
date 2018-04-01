@@ -22,6 +22,8 @@ var barSchema = new mongoose.Schema({
 		}
 	],
 	rating: { type: Number, default: 0 }
+}, {
+	usePushEach: true
 });
 
 // 3. complile into a schema

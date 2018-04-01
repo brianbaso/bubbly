@@ -4,20 +4,21 @@ var Bar = require('../models/bar');
 var Rating = require('../models/rating');
 var middleware = require('../middleware');
 
-router.post('/', middleware.isLoggedIn, middleware.checkRatingExists, function(req, res) {
+router.post('/bars/:id/ratings', middleware.isLoggedIn, middleware.checkRatingExists, function(req, res) {
 	Bar.findById(req.params.id, function(err, bar) {
 		if (err) {
 			console.log(err);
 		} else if (req.body.rating) {
-			Rating.create(req.body.rating, function(err, bar) {
+			Rating.create(req.body.rating, function(err, rating) {
 				if (err) {
 					console.log(err);
 				}
+				console.log(rating);
 				rating.author.id = req.user._id;
 				rating.author.username = req.user.username;
 				rating.save();
 					bar.ratings.push(rating);
-					campground.save();
+					bar.save();
 					req.flash('success', 'Sucessfully added rating');
 				});
 		} else {
@@ -26,3 +27,5 @@ router.post('/', middleware.isLoggedIn, middleware.checkRatingExists, function(r
 		res.redirect('/bars/' + bar._id);
 	});
 });
+
+module.exports = router;

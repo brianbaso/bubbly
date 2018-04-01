@@ -10,8 +10,10 @@ var express			= require('express'),
 	User 			= require('./models/user')
 
 var barRoutes		= require('./routes/bars'),
+	ratingRoutes	= require('./routes/ratings'),
 	indexRoutes		= require('./routes/index')
 
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/bubbly');
 // Serve static images, CSS, JS
 app.use(express.static('public'));
@@ -41,6 +43,7 @@ app.use(function (req, res, next) {
 
 app.use(indexRoutes);
 app.use(barRoutes);
+app.use(ratingRoutes);
 
 app.listen(3000, function() {
 	console.log('Let the bubbles ensue...');

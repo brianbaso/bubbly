@@ -86,6 +86,7 @@ router.get('/bars/:id', function(req, res) {
 				});
 				foundBar.rating = rating / length;
 				foundBar.save();
+				console.log('hey');
 			}
 			console.log('Ratings:', foundBar.ratings);
 			console.log('Rating:', foundBar.rating);

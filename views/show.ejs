@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YelpCamp</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/stylesheets/starability-basic.min.css">
+        <link rel="stylesheet" href="/stylesheets/main.css">
+    </head>
+
 <h4 class="ui horizontal header">
   <%= bar.name %>
 </h4>
@@ -12,27 +21,6 @@
       <td>average age</td>
     </tr>
     <tr>
-      <form action="/bars/<%= bar._id %>/" method="POST">
-          <label for="rating">Rating:</label>
-          <fieldset class="starability-basic form-group" id="rating">
-            <input type="radio" id="first-rate5" name="rating" value="5" />
-            <label for="first-rate5" title="Amazing">5 stars</label>
-            <input type="radio" id="first-rate4" name="rating" value="4" />
-            <label for="first-rate4" title="Very good">4 stars</label>
-            <input type="radio" id="first-rate3" name="rating" value="3" />
-            <label for="first-rate3" title="Average">3 stars</label>
-            <input type="radio" id="first-rate2" name="rating" value="2" />
-            <label for="first-rate2" title="Not good">2 stars</label>
-            <input type="radio" id="first-rate1" name="rating" value="1" />
-            <label for="first-rate1" title="Terrible">1 star</label>
-          </fieldset>
-          <div class="form-group">
-              <button class="btn btn-lg btn-primary btn-block">Submit!</button>
-          </div>
-      </form>
-      <div>
-          Current Rating: <%= campground.rating.toFixed(2) %>
-      </div>
     </tr>
     <tr>
       <td>Odor</td>
@@ -40,3 +28,25 @@
     </tr>
   </tbody>
 </table>
+<form action="/bars/<%= bar._id %>/ratings" method="POST">
+          <label for="rating">Rating:</label>
+          <fieldset class="starability-basic form-group" id="rating">
+            <input type="radio" id="first-rate5" name="rating[rating]" value="5" />
+            <label for="first-rate5" title="Amazing">5 stars</label>
+            <input type="radio" id="first-rate4" name="rating[rating]" value="4" />
+            <label for="first-rate4" title="Very good">4 stars</label>
+            <input type="radio" id="first-rate3" name="rating[rating]" value="3" />
+            <label for="first-rate3" title="Average">3 stars</label>
+            <input type="radio" id="first-rate2" name="rating[rating]" value="2" />
+            <label for="first-rate2" title="Not good">2 stars</label>
+            <input type="radio" id="first-rate1" name="rating[rating]" value="1" />
+            <label for="first-rate1" title="Terrible">1 star</label>
+          </fieldset>
+          <div class="form-group">
+              <button class="btn btn-sm btn-primary">Submit!</button>
+          </div>
+      </form>
+      <div>
+          Current Rating: <%= bar.rating.toFixed(2) %>
+      </div>
+</html>

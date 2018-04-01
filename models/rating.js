@@ -9,6 +9,8 @@ var ratingSchema = new mongoose.Schema({
 		},
 		username: String
 	}
+}, {
+	usePushEach: true
 });
 
 module.exports = mongoose.model('Rating', ratingSchema);
