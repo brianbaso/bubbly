@@ -132,3 +132,7 @@ i.icon.angle.down:before {
 	display: inline;
 }
 
+/* Starability Rating Form */
+.starability-basic {
+	min-height: 0;
+}

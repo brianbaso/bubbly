@@ -24,7 +24,7 @@ router.post('/bars/:id/ratings', middleware.isLoggedIn, middleware.checkRatingEx
 		} else {
 				req.flash('error', 'Please select rating');
 		}
-		res.redirect('/bars/' + bar._id);
+		//res.redirect('/bars/' + bar._id);
 	});
 });
 

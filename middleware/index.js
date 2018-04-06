@@ -33,7 +33,7 @@ middlewareObj.checkRatingExists = function(req, res, next) {
 		for (var i = 0; i < bar.ratings.length; i++) {
 			if (bar.ratings[i].author.id.equals(req.user._id)) {
 				req.flash('success', 'You\'ve already rated this!');
-				return res.redirect(/bars/ + bar._id);
+				//return res.redirect(/bars/ + bar._id);
 			}
 		}
 		next();
